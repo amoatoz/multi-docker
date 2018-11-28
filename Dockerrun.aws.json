@@ -1,0 +1,35 @@
+{
+    "AWSEBDockerrunVersion":2,
+    "containerDefinitions" : [
+        {
+            "name":"client",
+            "image":"amoatoz/multi-client",
+            "hostname":"client",
+            "essential": false
+        },
+        {
+            "name":"server",
+            "image":"amoatoz/multi-server",
+            "hostname":"api",
+            "essential": false
+        },
+        {
+            "name":"worker",
+            "image":"amoatoz/multi-worker",
+            "hostname":"worker",
+            "essential": false
+        },
+        {
+            "name":"nginx",
+            "image":"amoatoz/multi-nginx",
+            "essential":true,
+            "portMappings": [
+                {
+                    "hostPort":80,
+                    "containerPort":80
+                }
+            ],
+            "links":["client","server"]
+        }
+    ]
+}
