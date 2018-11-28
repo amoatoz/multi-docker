@@ -1,0 +1,24 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t amoatoz/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run amoatoz/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t amoatoz/multi-client ./client
+  - docker build -t amoatoz/multi-nginx ./nginx
+  - docker build -t amoatoz/multi-server ./server
+  - docker build -t amoatoz/multi-worker ./worker
+
+#Log in to the docker cli
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+# push images to docker hub
+  - docker push amoatoz/multi-client
+  - docker push amoatoz/multi-nginx
+  - docker push amoatoz/multi-server
+  - docker push amoatoz/multi-worker
