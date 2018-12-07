@@ -17,7 +17,7 @@ after_success:
 #Log in to the docker cli
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
-# push images to docker hub
+# push images to docker hub Push image
   - docker push amoatoz/multi-client
   - docker push amoatoz/multi-nginx
   - docker push amoatoz/multi-server
